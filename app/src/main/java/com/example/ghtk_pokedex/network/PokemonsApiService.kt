@@ -1,5 +1,6 @@
-package com.example.ghtk_pokedex
+package com.example.ghtk_pokedex.network
 
+import com.example.ghtk_pokedex.data.model.PokemonsResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET

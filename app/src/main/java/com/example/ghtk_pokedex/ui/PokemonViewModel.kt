@@ -1,10 +1,12 @@
-package com.example.ghtk_pokedex
+package com.example.ghtk_pokedex.ui
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ghtk_pokedex.network.PokemonApi
+import com.example.ghtk_pokedex.data.model.Pokemon
 import kotlinx.coroutines.launch
 
 enum class PokemonsApiStatus { LOADING, ERROR, DONE }
@@ -23,17 +25,11 @@ class OverviewViewModel : ViewModel() {
         setPokemonPhotos(20)
     }
 
-    fun setPokemonPhotos(limit : Int) {
+    private fun setPokemonPhotos(limit : Int) {
         viewModelScope.launch {
             _status.value = PokemonsApiStatus.LOADING
             try {
                 val pokemonsResponse = PokemonApi.retrofitService.getResponse(limit, 0)
-//                val newPokemons = pokemonsResponse.pokemons.subList(limit - 20, limit)
-//                if (_photos.value == null) {
-//                    _photos.value = newPokemons.toMutableList()
-//                } else {
-//                    _photos.value?.addAll(newPokemons)
-//                }
                 _photos.value = pokemonsResponse.pokemons.toMutableList()
                 _status.value = PokemonsApiStatus.DONE
                 Log.e("View Model", "Success" + (photos.value?.size ?: 0))

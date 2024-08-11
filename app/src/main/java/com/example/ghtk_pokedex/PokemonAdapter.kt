@@ -3,11 +3,9 @@ package com.example.ghtk_pokedex
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.ghtk_pokedex.data.model.Pokemon
 import com.example.ghtk_pokedex.databinding.GridListItemBinding
 
 class PokemonAdapter(private val dataset: List<Pokemon>) :

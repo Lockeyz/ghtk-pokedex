@@ -1,4 +1,4 @@
-package com.example.ghtk_pokedex
+package com.example.ghtk_pokedex.data.model
 
 import com.google.gson.annotations.SerializedName
 
