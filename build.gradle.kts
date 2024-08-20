@@ -4,4 +4,6 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     // hilt-android-gradle-plugin
     alias(libs.plugins.google.dagger.hilt) apply false
+    alias(libs.plugins.google.devtools.ksp) apply false
+
 }

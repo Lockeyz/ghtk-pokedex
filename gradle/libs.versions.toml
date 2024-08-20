@@ -14,11 +14,14 @@ constraintlayout = "2.1.4"
 retrofit = "2.11.0"
 converter-gson = "2.11.0"
 hilt = "2.46"
+room = "2.6.1"
+ksp = "2.0.0-1.0.24"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -34,8 +37,12 @@ gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "conver
 google-dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 google-dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 google-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
