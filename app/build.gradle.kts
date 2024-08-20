@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
+    alias(libs.plugins.google.dagger.hilt)
+    kotlin("kapt")
 }
 
 android {
@@ -36,6 +39,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
 }
 
 dependencies {
@@ -56,7 +60,13 @@ dependencies {
     // lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
-
+    // Thu vien coil de load anh
     implementation(libs.coil)
+    // hilt
+    implementation(libs.google.dagger.hilt)
+    kapt(libs.google.dagger.hilt.compiler)
+}
 
+kapt {
+    correctErrorTypes = true
 }

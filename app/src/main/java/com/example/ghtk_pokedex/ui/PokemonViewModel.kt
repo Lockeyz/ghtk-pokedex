@@ -1,10 +1,12 @@
-package com.example.ghtk_pokedex
+package com.example.ghtk_pokedex.ui
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ghtk_pokedex.network.PokemonApi
+import com.example.ghtk_pokedex.data.model.Pokemon
 import kotlinx.coroutines.launch
 
 enum class PokemonsApiStatus { LOADING, ERROR, DONE }

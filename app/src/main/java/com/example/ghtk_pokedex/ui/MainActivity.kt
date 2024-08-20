@@ -1,26 +1,17 @@
-package com.example.ghtk_pokedex
+package com.example.ghtk_pokedex.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import com.example.ghtk_pokedex.PokemonAdapter
+import com.example.ghtk_pokedex.network.PokemonApi
 import com.example.ghtk_pokedex.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         private const val TOTAL_POKEMONS = 999
     }
 
+    private var limit = 20
+    private var offset = 0
     private var currentPage = 1
     private val pageSize = 20
     private lateinit var adapter: PokemonAdapter
@@ -74,12 +67,16 @@ class MainActivity : AppCompatActivity() {
     private  fun loadMoreItems() {
         Toast.makeText(this, "Load more", Toast.LENGTH_SHORT).show()
         runBlocking {
-            val start = currentPage * pageSize
-            val end = minOf(start + pageSize, TOTAL_POKEMONS)
-            val pokemonsResponse = PokemonApi.retrofitService.getResponse(end, 0)
-            val newItems = pokemonsResponse.pokemons.subList(start, end)
+            offset = currentPage * pageSize
+            val pokemonsResponse = PokemonApi.retrofitService.getResponse(limit, offset)
+            val newItems = pokemonsResponse.pokemons
             viewModel.photos.value?.addAll(newItems)
             currentPage++
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
