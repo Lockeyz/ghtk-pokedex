@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import com.example.ghtk_pokedex.PokedexApplication
 import com.example.ghtk_pokedex.PokemonAdapter
+import com.example.ghtk_pokedex.data.Pokemon
 import com.example.ghtk_pokedex.network.PokemonApi
 import com.example.ghtk_pokedex.databinding.ActivityMainBinding
 import kotlinx.coroutines.runBlocking
@@ -28,7 +30,14 @@ class MainActivity : AppCompatActivity() {
     private val pageSize = 20
     private lateinit var adapter: PokemonAdapter
 
-    private val viewModel: OverviewViewModel by viewModels()
+    private val viewModel: PokedexViewModel by viewModels {
+        PokedexViewModelFactory(
+            (application as PokedexApplication).database.pokemonDao()
+        )
+    }
+
+    lateinit var pokemon: Pokemon
+
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +45,10 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.photos.observe(this) {
-            adapter = PokemonAdapter(viewModel.photos.value!!)
+        viewModel.pokemons.observe(this) {
+            adapter = PokemonAdapter(viewModel.pokemons.value!!)
             binding.gridRecyclerView.adapter = adapter
-            adapter.notifyDataSetChanged()
+//            adapter.notifyDataSetChanged()
         }
 
         binding.gridRecyclerView.addOnScrollListener(object : OnScrollListener() {
@@ -54,7 +63,6 @@ class MainActivity : AppCompatActivity() {
                     && totalItemCount <= TOTAL_POKEMONS
                 ) {
                     loadMoreItems()
-                    adapter.notifyDataSetChanged()
                 }
 
             }
@@ -70,7 +78,18 @@ class MainActivity : AppCompatActivity() {
             offset = currentPage * pageSize
             val pokemonsResponse = PokemonApi.retrofitService.getResponse(limit, offset)
             val newItems = pokemonsResponse.pokemons
-            viewModel.photos.value?.addAll(newItems)
+            viewModel.pokemons.value?.addAll(newItems)
+            val currentSize = viewModel.pokemons.value?.size ?: 0
+            // su dung notifyItemRangeInserted de toi uu hoa hieu suat
+            adapter.notifyItemRangeInserted(currentSize, newItems.size)
+            val pokemons = newItems.map {
+                Pokemon(
+                    id = it.imageUrl.trimEnd('/').substringAfterLast('/').toInt(),
+                    name = it.name,
+                    imageUrl = it.imageUrl
+                )
+            }
+            viewModel.insertPokemons(pokemons)
             currentPage++
         }
     }

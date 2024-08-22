@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.ghtk_pokedex.data.model.Pokemon
+import com.example.ghtk_pokedex.model.PokemonModel
 import com.example.ghtk_pokedex.databinding.GridListItemBinding
 
-class PokemonAdapter(private val dataset: List<Pokemon>) :
+class PokemonAdapter(private val dataset: List<PokemonModel>) :
     RecyclerView.Adapter<PokemonAdapter.ItemViewHolder>() {
     class ItemViewHolder(binding: GridListItemBinding) : RecyclerView.ViewHolder(binding.root){
         val image = binding.imageView
